@@ -1,7 +1,7 @@
 # tasktopus
 Your smart task manager and calendar (A to do list project)
 
-![TaskTopus](assets/TaskTopus.png)
+![TaskTopus](TaskTopus.png)
 
 This is a dynamic and interactive web-based Event Planner and Task Manager application. It features a monthly calendar view, detailed event management with recurrence options, and the ability to track and sort tasks. All your tasks are saved locally in your browser's storage, so your data persists even after you close the application.
 
