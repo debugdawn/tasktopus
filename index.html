@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskTopus - Interactive Calendar with Tasks</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="app-header">
+      <h1><i class="fas fa-tasks"></i> TaskTopus</h1>
+      <p>Your smart task manager and calendar.</p>
+    </div>
+
+    <div class="calendar-container">
+      <div class="calendar">
+        <div class="calendar-header">
+          <div class="navigation" id="prev-month">
+            <i class="fas fa-chevron-left"></i>
+          </div>
+          <h2 id="month-year"></h2>
+          <div class="navigation" id="next-month">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+
+          <div id="mini-calendar-dropdown" class="mini-calendar-dropdown">
+            <div class="mini-calendar-header">
+              <span id="mini-prev-nav" class="mini-nav"
+                ><i class="fas fa-chevron-left"></i
+              ></span>
+              <span id="mini-current-display"></span>
+              <span id="mini-next-nav" class="mini-nav"
+                ><i class="fas fa-chevron-right"></i
+              ></span>
+            </div>
+            <div id="mini-calendar-grid" class="mini-calendar-grid"></div>
+          </div>
+        </div>
+
+        <div class="calendar-week-days">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
+        <div class="calendar-days" id="calendar-days"></div>
+      </div>
+
+      <div class="event-sidebar">
+        <div class="view-controls">
+          <label for="sort-by">Sort all tasks by:</label>
+          <select id="sort-by">
+            <option value="dueDate">Due Date</option>
+            <option value="priority">Priority</option>
+            <option value="status">Status</option>
+          </select>
+        </div>
+
+        <h3 id="selected-date-title">Events</h3>
+        <div id="event-list" class="event-list no-events">Select a date</div>
+
+        <form id="event-form">
+          <div id="close-event-form"><i class="fas fa-times"></i></div>
+          <input
+            type="text"
+            id="event-title"
+            placeholder="📝 Task Title"
+            required
+          />
+          <input type="text" id="event-desc" placeholder="Details (optional)" />
+          <input type="date" id="event-due-date" />
+          <select id="event-priority">
+            <option value="High">🎯 High Priority</option>
+            <option value="Medium" selected>🎯 Medium Priority</option>
+            <option value="Low">🎯 Low Priority</option>
+          </select>
+          <label for="event-recurrence-type" class="form-label"
+            >🔁 Recurrence:</label
+          >
+          <select id="event-recurrence-type">
+            <option value="none">No Recurrence</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+
+          <div
+            id="recurrence-daily-options"
+            class="recurrence-options"
+            style="display: none"
+          >
+            <input type="number" id="daily-interval" value="1" min="1" />
+            <label for="daily-interval">day(s)</label>
+          </div>
+
+          <div
+            id="recurrence-weekly-options"
+            class="recurrence-options"
+            style="display: none"
+          >
+            <label for="weekly-interval">Every</label>
+            <input type="number" id="weekly-interval" value="1" min="1" />
+            <label for="weekly-interval">week(s) on:</label><br />
+            <div class="week-days-checkboxes">
+              <input type="checkbox" id="recur-mon" value="1" /><label
+                for="recur-mon"
+                >M</label
+              >
+              <input type="checkbox" id="recur-tue" value="2" /><label
+                for="recur-tue"
+                >T</label
+              >
+              <input type="checkbox" id="recur-wed" value="3" /><label
+                for="recur-wed"
+                >W</label
+              >
+              <input type="checkbox" id="recur-thu" value="4" /><label
+                for="recur-thu"
+                >T</label
+              >
+              <input type="checkbox" id="recur-fri" value="5" /><label
+                for="recur-fri"
+                >F</label
+              >
+              <input type="checkbox" id="recur-sat" value="6" /><label
+                for="recur-sat"
+                >S</label
+              >
+              <input type="checkbox" id="recur-sun" value="0" /><label
+                for="recur-sun"
+                >S</label
+              >
+            </div>
+          </div>
+
+          <div
+            id="recurrence-monthly-options"
+            class="recurrence-options"
+            style="display: none"
+          >
+            <label for="monthly-type">Monthly on:</label>
+            <select id="monthly-type">
+              <option value="dayOfMonth">Day of month</option>
+              <option value="dayOfWeek">Specific day of week</option>
+            </select>
+
+            <div id="monthly-day-of-month">
+              <label for="monthly-day-input">Day:</label>
+              <input
+                type="number"
+                id="monthly-day-input"
+                value="1"
+                min="1"
+                max="31"
+              />
+            </div>
+
+            <div id="monthly-day-of-week" style="display: none">
+              <select id="monthly-week-number">
+                <option value="1">First</option>
+                <option value="2">Second</option>
+                <option value="3">Third</option>
+                <option value="4">Fourth</option>
+                <option value="5">Last</option>
+              </select>
+              <select id="monthly-day-of-week-day">
+                <option value="0">Sunday</option>
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+              </select>
+            </div>
+
+            <label for="monthly-interval">Every</label>
+            <input type="number" id="monthly-interval" value="1" min="1" />
+            <label for="monthly-interval">month(s)</label>
+          </div>
+
+          <div
+            id="recurrence-yearly-options"
+            class="recurrence-options"
+            style="display: none"
+          >
+            <label for="yearly-interval">Every</label>
+            <input type="number" id="yearly-interval" value="1" min="1" />
+            <label for="yearly-interval">year(s) on:</label><br />
+            <select id="yearly-month-select">
+              <option value="0">January</option>
+              <option value="1">February</option>
+              <option value="2">March</option>
+              <option value="3">April</option>
+              <option value="4">May</option>
+              <option value="5">June</option>
+              <option value="6">July</option>
+              <option value="7">August</option>
+              <option value="8">September</option>
+              <option value="9">October</option>
+              <option value="10">November</option>
+              <option value="11">December</option>
+            </select>
+            <input
+              type="number"
+              id="yearly-day-input"
+              value="1"
+              min="1"
+              max="31"
+            />
+          </div>
+
+          <div
+            id="recurrence-end-date-options"
+            class="recurrence-options"
+            style="display: none"
+          >
+            <label for="recurrence-end-type">Ends:</label>
+            <select id="recurrence-end-type">
+              <option value="never">Never</option>
+              <option value="onDate">On date</option>
+              <option value="afterOccurrences">After</option>
+            </select>
+            <input
+              type="date"
+              id="recurrence-end-on-date"
+              style="display: none"
+            />
+            <input
+              type="number"
+              id="recurrence-end-after-occurrences"
+              value="1"
+              min="1"
+              style="display: none"
+            />
+            <span
+              id="recurrence-end-after-occurrences-label"
+              style="display: none"
+              >occurrence(s)</span
+            >
+          </div>
+          <button type="submit" id="form-submit-btn">➕ Add Task</button>
+        </form>
+
+        <div class="sidebar-actions">
+          <button id="toggle-form">
+            <i class="fas fa-plus-circle"></i> Add Task
+          </button>
+          <button id="view-all-tasks-btn">
+            <i class="fas fa-list-ul"></i> Show All Tasks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
